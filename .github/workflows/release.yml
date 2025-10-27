@@ -14,11 +14,35 @@ permissions:
 jobs:
 
   #============================================================================
+  # Create Release First
+  #============================================================================
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          draft: true
+          prerelease: false
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+        continue-on-error: true
+
+  #============================================================================
   # Build Linux Packages (GCC)
   #============================================================================
 
   build-linux-gcc:
     name: Linux GCC Packages
+    needs: create-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -67,6 +91,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          draft: true
           files: |
             build/packages/*.deb
             build/packages/*.rpm
@@ -78,6 +103,7 @@ jobs:
 
   build-windows-msvc:
     name: Windows MSVC Packages
+    needs: create-release
     runs-on: windows-latest
     steps:
       - name: Checkout code
@@ -135,11 +161,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          draft: true
           files: |
             build/packages/*.msi
             build/packages/*.exe
             build/packages/*MSVC*.zip
-          overwrite_files: true
 
   #============================================================================
   # Build Source Package
@@ -147,6 +173,7 @@ jobs:
 
   build-source:
     name: Source Package
+    needs: create-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -172,4 +199,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          draft: true
           files: build/packages/*Source*
