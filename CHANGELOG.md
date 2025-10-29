@@ -31,6 +31,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - NIL
 
+## [1.0.2] - 2025-10-29
+
+### Changed
+
+- Refactored directory variable naming from `NFX_STRINGUTILS_ROOT_DIR` to `NFX_STRINGUTILS_DIR` for consistency
+
+### Fixed
+
+- Fixed incorrect CMake directory paths that would cause build failures in certain configurations:
+  `CMAKE_CURRENT_SOURCE_DIR` was incorrectly used instead of `PROJECT_SOURCE_DIR` for root directory path
+
 ## [1.0.1] - 2025-10-27
 
 ### Fixed
