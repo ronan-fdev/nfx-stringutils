@@ -38,6 +38,7 @@ endif()
 set(TEST_SOURCES)
 
 list(APPEND TEST_SOURCES
+	TESTS_StringSplitter.cpp
 	TESTS_StringUtils.cpp
 )
 

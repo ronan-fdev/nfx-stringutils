@@ -10,13 +10,29 @@
 
 [![Linux GCC](https://img.shields.io/github/actions/workflow/status/ronan-fdev/nfx-stringutils/build-linux-gcc.yml?branch=main&label=Linux%20GCC&style=flat-square)](https://github.com/ronan-fdev/nfx-stringutils/actions/workflows/build-linux-gcc.yml) [![Linux Clang](https://img.shields.io/github/actions/workflow/status/ronan-fdev/nfx-stringutils/build-linux-clang.yml?branch=main&label=Linux%20Clang&style=flat-square)](https://github.com/ronan-fdev/nfx-stringutils/actions/workflows/build-linux-clang.yml) [![Windows MinGW](https://img.shields.io/github/actions/workflow/status/ronan-fdev/nfx-stringutils/build-windows-mingw.yml?branch=main&label=Windows%20MinGW&style=flat-square)](https://github.com/ronan-fdev/nfx-stringutils/actions/workflows/build-windows-mingw.yml) [![Windows MSVC](https://img.shields.io/github/actions/workflow/status/ronan-fdev/nfx-stringutils/build-windows-msvc.yml?branch=main&label=Windows%20MSVC&style=flat-square)](https://github.com/ronan-fdev/nfx-stringutils/actions/workflows/build-windows-msvc.yml) [![CodeQL](https://img.shields.io/github/actions/workflow/status/ronan-fdev/nfx-stringutils/codeql.yml?branch=main&label=CodeQL&style=flat-square)](https://github.com/ronan-fdev/nfx-stringutils/actions/workflows/codeql.yml)
 
-> A C++20 string utilities library with validation and manipulation functions for cross-platform string operations
+> A modern C++20 header-only library for high-performance string utilities including zero-allocation splitting, validation, parsing, and manipulation
 
 ## Overview
 
-nfx-stringutils is a modern C++20 header-only library providing high-performance string validation, and manipulation utilities. It offers comprehensive string operations including character classification, case conversion, trimming, boolean/numeric and URI validation optimized for performance across multiple platforms and compilers.
+nfx-stringutils is a modern C++20 header-only library providing high-performance string validation, manipulation, and splitting utilities. It offers comprehensive string operations including character classification, case conversion, trimming, zero-allocation splitting, boolean/numeric parsing, and URI validation optimized for performance across multiple platforms and compilers.
 
 ## Features
+
+### 🚀 High-Performance String Splitting
+
+- **Zero-Allocation Design**: Uses `std::string_view` for memory-efficient processing
+- **Iterator Interface**: Range-based for loop support with forward iterator
+- **Template Support**: Accepts any string-like type (std::string, const char\*, etc.)
+- **Single Character Delimiters**: Efficient splitting on any character delimiter
+- **Factory Function**: Convenient `splitView()` function for easy usage
+
+### 📊 Real-World Applications
+
+- **CSV Processing**: Parse comma-separated values efficiently
+- **Configuration Files**: Split key-value pairs and settings
+- **Log Analysis**: Process space or tab-separated log entries
+- **Path Manipulation**: Split file paths and URLs
+- **Data Processing**: Handle any delimited text data
 
 ### ✅ String Validation & Classification
 
@@ -171,6 +187,215 @@ cmake --build . --target documentation
 After building, open `./build/doc/html/index.html` in your web browser.
 
 ## Usage Examples
+
+### Basic String Splitting
+
+```cpp
+#include <iostream>
+#include <string>
+#include <nfx/string/Splitter.h>
+
+using namespace nfx::string;
+
+// CSV data processing
+std::string csvLine = "John,Doe,30,Engineer,NewYork";
+for (auto field : splitView(csvLine, ',')) {
+    std::cout << "Field: " << field << std::endl;
+}
+
+// Configuration parsing
+std::string config = "debug=true;port=8080;ssl=false";
+for (auto setting : splitView(config, ';')) {
+    std::cout << "Setting: " << setting << std::endl;
+}
+
+// Path components
+std::string path = "/usr/local/bin/myapp";
+auto splitter = Splitter(path, '/');
+for (auto component : splitter) {
+    if (!component.empty()) {  // Skip empty leading component
+        std::cout << "Path component: " << component << std::endl;
+    }
+}
+```
+
+### Advanced Usage Patterns
+
+```cpp
+#include <cassert>
+#include <vector>
+#include <nfx/string/Splitter.h>
+
+using namespace nfx::string;
+
+// Collect segments into container
+std::string data = "apple,banana,cherry,date";
+std::vector<std::string_view> fruits;
+for (auto fruit : splitView(data, ',')) {
+    fruits.push_back(fruit);
+}
+
+// Process log entries
+std::string logLine = "2025-10-26 14:30:15 ERROR Database connection failed";
+auto logSplitter = splitView(logLine, ' ');
+auto it = logSplitter.begin();
+
+if (it != logSplitter.end()) {
+    std::string_view date = *it++;
+    std::string_view time = *it++;
+    std::string_view level = *it++;
+    // Remaining segments are the message
+
+    std::cout << "Date: " << date << std::endl;
+    std::cout << "Time: " << time << std::endl;
+    std::cout << "Level: " << level << std::endl;
+}
+
+// Zero-copy performance
+std::string original = "one,two,three";
+for (auto segment : splitView(original, ',')) {
+    // segment.data() points to original string memory
+    // No heap allocations performed
+    assert(segment.data() >= original.data() &&
+           segment.data() < original.data() + original.size());
+}
+```
+
+### Real-World Applications
+
+```cpp
+#include <map>
+#include <nfx/string/Splitter.h>
+
+using namespace nfx::string;
+
+// CSV file processing
+void processCSVLine(const std::string& csvLine) {
+    auto splitter = splitView(csvLine, ',');
+    auto it = splitter.begin();
+
+    if (it != splitter.end()) {
+        std::string_view name = *it++;
+        std::string_view age = *it++;
+        std::string_view city = *it++;
+
+        // Process fields without string allocation
+    }
+}
+
+// Configuration file parsing
+std::map<std::string_view, std::string_view> parseConfig(const std::string& config) {
+    std::map<std::string_view, std::string_view> settings;
+
+    for (auto line : splitView(config, '\n')) {
+        auto keyValue = splitView(line, '=');
+        auto it = keyValue.begin();
+
+        if (it != keyValue.end()) {
+            std::string_view key = *it++;
+            if (it != keyValue.end()) {
+                std::string_view value = *it;
+                settings[key] = value;
+            }
+        }
+    }
+
+    return settings;
+}
+
+// URL path processing
+void processURLPath(const std::string& path) {
+    // Split "/api/v1/users/123/profile" into components
+    std::vector<std::string_view> pathComponents;
+
+    for (auto component : splitView(path, '/')) {
+        if (!component.empty()) {  // Skip empty components from leading/trailing '/'
+            pathComponents.push_back(component);
+        }
+    }
+
+    // pathComponents = ["api", "v1", "users", "123", "profile"]
+}
+```
+
+### Complete Example
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <nfx/string/Splitter.h>
+
+int main()
+{
+    using namespace nfx::string;
+
+    // CSV processing
+    std::string csvData = "John,Doe,30,Engineer,New York";
+    std::cout << "CSV Data: " << csvData << std::endl;
+
+    std::vector<std::string_view> fields;
+    for (auto field : splitView(csvData, ',')) {
+        fields.push_back(field);
+    }
+
+    std::cout << "Parsed " << fields.size() << " fields:" << std::endl;
+    for (size_t i = 0; i < fields.size(); ++i) {
+        std::cout << "  [" << i << "]: '" << fields[i] << "'" << std::endl;
+    }
+
+    // Configuration parsing
+    std::string config = "debug=true;port=8080;host=localhost";
+    std::cout << "\nConfig: " << config << std::endl;
+
+    for (auto setting : splitView(config, ';')) {
+        auto keyValue = splitView(setting, '=');
+        auto it = keyValue.begin();
+
+        std::string_view key = *it++;
+        if (it != keyValue.end()) {
+            std::string_view value = *it;
+            std::cout << "  " << key << " -> " << value << std::endl;
+        }
+    }
+
+    // Path processing
+    std::string path = "/home/user/documents/file.txt";
+    std::cout << "\nPath: " << path << std::endl;
+    std::cout << "Components: ";
+
+    bool first = true;
+    for (auto component : splitView(path, '/')) {
+        if (!component.empty()) {
+            if (!first) std::cout << " -> ";
+            std::cout << component;
+            first = false;
+        }
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+**Sample Output:**
+
+```
+CSV Data: John,Doe,30,Engineer,New York
+Parsed 5 fields:
+  [0]: 'John'
+  [1]: 'Doe'
+  [2]: '30'
+  [3]: 'Engineer'
+  [4]: 'New York'
+
+Config: debug=true;port=8080;host=localhost
+  debug -> true
+  port -> 8080
+  host -> localhost
+
+Path: /home/user/documents/file.txt
+Components: home -> user -> documents -> file.txt
+```
 
 ### String Validation & Classification
 
@@ -365,10 +590,13 @@ nfx-stringutils/
 
 nfx-stringutils is optimized for high performance with:
 
-- **Zero-allocation operations** where possible (e.g., string trimming with stringView)
-- **Constexpr functions** for compile-time optimization
-- **Highly optimized character classification** (faster than std library equivalents)
+- **Zero-allocation operations** using `std::string_view` for splitting and trimming
+- **Zero-copy design** - string segments reference original memory without duplication
+- **Constexpr functions** for compile-time optimization where possible
+- **Highly optimized character classification** faster than standard library equivalents
 - **Efficient string parsing** with minimal overhead
+- **Iterator-based interface** with minimal runtime cost
+- **Cache-friendly memory access** patterns for large data processing
 
 For detailed performance metrics and benchmarks, see the [benchmark documentation](benchmark/README.md).
 
@@ -389,4 +617,4 @@ All dependencies are automatically fetched via CMake FetchContent when building 
 
 ---
 
-_Updated on October 26, 2025_
+_Updated on October 30, 2025_

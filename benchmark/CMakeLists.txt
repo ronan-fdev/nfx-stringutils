@@ -18,6 +18,7 @@ endif()
 set(BENCHMARK_SOURCES)
 
 list(APPEND BENCHMARK_SOURCES
+	BM_Splitter.cpp
 	BM_StringUtilities.cpp
 )
 
