@@ -460,7 +460,6 @@ namespace nfx::string
 		int digitCount = 0;
 		bool hasDoubleColon = false;
 		bool prevWasColon = false;
-		std::size_t lastColonPos = std::string_view::npos;
 		std::size_t groupStartPos = 0;
 
 		for ( std::size_t i = 0; i < str.size(); ++i )
@@ -483,7 +482,6 @@ namespace nfx::string
 				}
 				digitCount = 0;
 				prevWasColon = true;
-				lastColonPos = i;
 				groupStartPos = i + 1; // Next group starts after this colon
 			}
 			else if ( ( c >= '0' && c <= '9' ) || ( c >= 'a' && c <= 'f' ) || ( c >= 'A' && c <= 'F' ) )
