@@ -19,6 +19,7 @@ set(SAMPLE_SOURCES)
 
 list(APPEND SAMPLE_SOURCES
 	Sample_Network.cpp
+	Sample_StringSplitter.cpp
 	Sample_StringUtils.cpp
 )
 

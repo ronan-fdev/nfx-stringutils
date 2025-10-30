@@ -9,7 +9,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(nfx-stringutils
-	VERSION 1.0.3
+	VERSION 1.1.0
 	DESCRIPTION "Cross-platform C++ string utilities library with validation and manipulation functions"
 	HOMEPAGE_URL "https://github.com/ronan-fdev/nfx-stringutils"
 	LANGUAGES CXX
@@ -75,20 +75,20 @@ enable_testing()
 #----------------------------------------------
 
 # --- Build components (header-only library) ---
-option(NFX_STRINGUTILS_BUILD_TESTS          "Build tests"                        OFF )
-option(NFX_STRINGUTILS_BUILD_SAMPLES        "Build samples"                      OFF )
-option(NFX_STRINGUTILS_BUILD_BENCHMARKS     "Build benchmarks"                   OFF )
-option(NFX_STRINGUTILS_BUILD_DOCUMENTATION  "Build Doxygen documentation"        OFF )
+option(NFX_STRINGUTILS_BUILD_TESTS          "Build tests"                        ON )
+option(NFX_STRINGUTILS_BUILD_SAMPLES        "Build samples"                      ON )
+option(NFX_STRINGUTILS_BUILD_BENCHMARKS     "Build benchmarks"                   ON )
+option(NFX_STRINGUTILS_BUILD_DOCUMENTATION  "Build Doxygen documentation"        ON )
 
 # --- Installation ---
-option(NFX_STRINGUTILS_INSTALL_PROJECT      "Install project"                    OFF )
+option(NFX_STRINGUTILS_INSTALL_PROJECT      "Install project"                    ON )
 
 # --- Packaging ---
-option(NFX_STRINGUTILS_PACKAGE_SOURCE       "Enable source package generation"   OFF )
-option(NFX_STRINGUTILS_PACKAGE_ARCHIVE      "Enable TGZ/ZIP package generation"  OFF )
-option(NFX_STRINGUTILS_PACKAGE_DEB          "Enable DEB package generation"      OFF )
-option(NFX_STRINGUTILS_PACKAGE_RPM          "Enable RPM package generation"      OFF )
-option(NFX_STRINGUTILS_PACKAGE_WIX          "Enable WiX Windows installer (MSI)" OFF )
+option(NFX_STRINGUTILS_PACKAGE_SOURCE       "Enable source package generation"   ON )
+option(NFX_STRINGUTILS_PACKAGE_ARCHIVE      "Enable TGZ/ZIP package generation"  ON )
+option(NFX_STRINGUTILS_PACKAGE_DEB          "Enable DEB package generation"      ON )
+option(NFX_STRINGUTILS_PACKAGE_RPM          "Enable RPM package generation"      ON )
+option(NFX_STRINGUTILS_PACKAGE_WIX          "Enable WiX Windows installer (MSI)" ON )
 
 #----------------------------------------------
 # CMake modules configuration

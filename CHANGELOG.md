@@ -31,6 +31,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - NIL
 
+## [1.1.0] - 2025-10-30
+
+### Added
+
+- **String Splitter**: Zero-allocation string splitting with C++20 iterator support
+  - `Splitter` class for memory-efficient string splitting using `std::string_view`
+  - `splitView()` factory function for convenient usage
+  - Full C++20 forward iterator implementation with proper iterator traits
+  - STL algorithm compatibility (`std::distance`, `std::find`, `std::count`, etc.)
+  - Range-based for loop support for ergonomic iteration
+  - Zero-copy design - segments reference original string memory without allocation
+
 ## [1.0.3] - 2025-10-30
 
 ### Fixed

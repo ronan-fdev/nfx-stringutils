@@ -33,6 +33,21 @@
 
 # Performance Results
 
+## String Splitter Operations
+
+| Operation                      | Linux GCC   | Linux Clang | Windows MinGW GCC | Windows Clang-GNU-CLI | Windows Clang-MSVC-CLI | Windows MSVC |
+| ------------------------------ | ----------- | ----------- | ----------------- | --------------------- | ---------------------- | ------------ |
+| **Manual CSV Splitting**       | **24.0 ns** | 26.5 ns     | 47.0 ns           | 77.3 ns               | 65.6 ns                | 35.6 ns      |
+| **Splitter CSV Splitting**     | **26.7 ns** | 35.0 ns     | 48.8 ns           | 51.1 ns               | 54.0 ns                | 36.1 ns      |
+| **SplitView CSV Splitting**    | **26.8 ns** | 35.3 ns     | 49.3 ns           | 51.4 ns               | 51.4 ns                | 36.6 ns      |
+| **Manual Path Splitting**      | **19.8 ns** | 24.3 ns     | 42.2 ns           | 66.4 ns               | 57.2 ns                | 31.3 ns      |
+| **Splitter Path Splitting**    | **22.2 ns** | 29.6 ns     | 41.4 ns           | 49.6 ns               | 43.4 ns                | 35.7 ns      |
+| **SplitView Path Splitting**   | **22.0 ns** | 29.9 ns     | 40.6 ns           | 48.0 ns               | 42.1 ns                | 34.5 ns      |
+| **Manual Config Splitting**    | **17.5 ns** | 19.7 ns     | 46.2 ns           | 54.8 ns               | 51.1 ns                | 24.4 ns      |
+| **Splitter Config Splitting**  | **17.2 ns** | 22.4 ns     | 53.8 ns           | 40.6 ns               | 38.9 ns                | 27.9 ns      |
+| **SplitView Config Splitting** | **17.3 ns** | 22.8 ns     | 54.9 ns           | 41.9 ns               | 37.0 ns                | 27.0 ns      |
+| **Splitter Zero Allocation**   | **26.6 ns** | 34.5 ns     | 45.7 ns           | 43.9 ns               | 46.2 ns                | 34.7 ns      |
+
 ## String Utilities Operations
 
 | Operation                           | Linux GCC   | Linux Clang | Windows MinGW GCC | Windows Clang-GNU-CLI | Windows Clang-MSVC-CLI | Windows MSVC |
@@ -76,4 +91,4 @@
 
 ---
 
-_Benchmarks executed on October 26, 2025_
+_Benchmarks executed on October 30, 2025_
