@@ -9,11 +9,9 @@
 set(PUBLIC_HEADERS)
 
 list(APPEND PUBLIC_HEADERS
-	# --- String utilities headers ---
 	${NFX_STRINGUTILS_INCLUDE_DIR}/nfx/string/Splitter.h
 	${NFX_STRINGUTILS_INCLUDE_DIR}/nfx/string/Utils.h
 
-	# --- String utilities implementations ---
 	${NFX_STRINGUTILS_INCLUDE_DIR}/nfx/detail/string/Splitter.inl
 	${NFX_STRINGUTILS_INCLUDE_DIR}/nfx/detail/string/Utils.inl
 )
