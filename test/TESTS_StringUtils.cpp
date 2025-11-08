@@ -1264,6 +1264,117 @@ namespace nfx::string::test
 		EXPECT_EQ( join( words.end(), words.end(), ", " ), "" );
 	}
 
+	TEST( StringUtilsOperations, PadLeft )
+	{
+		// Basic padding
+		EXPECT_EQ( padLeft( "42", 5, '0' ), "00042" );
+		EXPECT_EQ( padLeft( "test", 10, ' ' ), "      test" );
+		EXPECT_EQ( padLeft( "x", 5, '*' ), "****x" );
+
+		// Default fill character (space)
+		EXPECT_EQ( padLeft( "hi", 5 ), "   hi" );
+
+		// Already at width
+		EXPECT_EQ( padLeft( "hello", 5, ' ' ), "hello" );
+
+		// Already wider than width
+		EXPECT_EQ( padLeft( "hello world", 5, ' ' ), "hello world" );
+
+		// Empty string
+		EXPECT_EQ( padLeft( "", 5, '*' ), "*****" );
+
+		// Zero width
+		EXPECT_EQ( padLeft( "test", 0, ' ' ), "test" );
+
+		// Real-world use cases
+		EXPECT_EQ( padLeft( "1", 3, '0' ), "001" );						 // Zero-padding numbers
+		EXPECT_EQ( padLeft( "Name", 20, ' ' ), "                Name" ); // Right-align in column
+	}
+
+	TEST( StringUtilsOperations, PadRight )
+	{
+		// Basic padding
+		EXPECT_EQ( padRight( "42", 5, '0' ), "42000" );
+		EXPECT_EQ( padRight( "test", 10, ' ' ), "test      " );
+		EXPECT_EQ( padRight( "x", 5, '*' ), "x****" );
+
+		// Default fill character (space)
+		EXPECT_EQ( padRight( "hi", 5 ), "hi   " );
+
+		// Already at width
+		EXPECT_EQ( padRight( "hello", 5, ' ' ), "hello" );
+
+		// Already wider than width
+		EXPECT_EQ( padRight( "hello world", 5, ' ' ), "hello world" );
+
+		// Empty string
+		EXPECT_EQ( padRight( "", 5, '*' ), "*****" );
+
+		// Zero width
+		EXPECT_EQ( padRight( "test", 0, ' ' ), "test" );
+
+		// Real-world use cases
+		EXPECT_EQ( padRight( "Name", 20, ' ' ), "Name                " ); // Left-align in column
+		EXPECT_EQ( padRight( "OK", 10, '.' ), "OK........" );			  // Menu items
+	}
+
+	TEST( StringUtilsOperations, Center )
+	{
+		// Basic centering
+		EXPECT_EQ( center( "Hi", 6, '*' ), "**Hi**" );
+		EXPECT_EQ( center( "test", 10, ' ' ), "   test   " );
+		EXPECT_EQ( center( "x", 5, '-' ), "--x--" );
+
+		// Default fill character (space)
+		EXPECT_EQ( center( "hello", 11 ), "   hello   " );
+
+		// Odd padding (extra char goes right)
+		EXPECT_EQ( center( "Hi", 5, '*' ), "*Hi**" );		// 3 total padding: 1 left, 2 right
+		EXPECT_EQ( center( "test", 9, ' ' ), "  test   " ); // 5 total padding: 2 left, 3 right
+
+		// Already at width
+		EXPECT_EQ( center( "hello", 5, ' ' ), "hello" );
+
+		// Already wider than width
+		EXPECT_EQ( center( "hello world", 5, ' ' ), "hello world" );
+
+		// Empty string
+		EXPECT_EQ( center( "", 5, '*' ), "*****" );
+
+		// Zero width
+		EXPECT_EQ( center( "test", 0, ' ' ), "test" );
+
+		// Real-world use cases
+		EXPECT_EQ( center( "TITLE", 20, '=' ), "=======TITLE========" ); // Headers
+		EXPECT_EQ( center( "Menu", 10, ' ' ), "   Menu   " );			 // Centered text
+	}
+
+	TEST( StringUtilsOperations, Repeat )
+	{
+		// Basic repetition
+		EXPECT_EQ( repeat( "*", 5 ), "*****" );
+		EXPECT_EQ( repeat( "ab", 3 ), "ababab" );
+		EXPECT_EQ( repeat( "test", 2 ), "testtest" );
+
+		// Single repetition
+		EXPECT_EQ( repeat( "hello", 1 ), "hello" );
+
+		// Zero repetitions
+		EXPECT_EQ( repeat( "test", 0 ), "" );
+
+		// Empty string
+		EXPECT_EQ( repeat( "", 5 ), "" );
+
+		// Long strings
+		EXPECT_EQ( repeat( "abc", 4 ), "abcabcabcabc" );
+
+		// Real-world use cases
+		EXPECT_EQ( repeat( "-", 40 ), "----------------------------------------" ); // Separators
+		EXPECT_EQ( repeat( " ", 4 ), "    " );										// Indentation
+		EXPECT_EQ( repeat( "=", 10 ), "==========" );								// Headers
+		EXPECT_EQ( repeat( "Na", 8 ) + " Batman!", "NaNaNaNaNaNaNaNa Batman!" );	// :)
+	}
+
 	//----------------------------------------------
 	// String trimming
 	//----------------------------------------------

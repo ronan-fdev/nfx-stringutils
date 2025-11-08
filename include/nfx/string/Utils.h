@@ -243,6 +243,54 @@ namespace nfx::string
 	[[nodiscard]] inline std::string join( Iterator begin, Iterator end, std::string_view delimiter );
 
 	//----------------------------------------------
+	// String formatting and padding
+	//----------------------------------------------
+
+	/**
+	 * @brief Pad string on the left to reach specified width
+	 * @param str String to pad
+	 * @param width Target width (total length after padding)
+	 * @param fillChar Character to use for padding (default: space)
+	 * @return Padded string (right-aligned). Returns original if already wider than width.
+	 * @details Example: padLeft("42", 5, '0') returns "00042"
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string padLeft( std::string_view str, std::size_t width, char fillChar = ' ' );
+
+	/**
+	 * @brief Pad string on the right to reach specified width
+	 * @param str String to pad
+	 * @param width Target width (total length after padding)
+	 * @param fillChar Character to use for padding (default: space)
+	 * @return Padded string (left-aligned). Returns original if already wider than width.
+	 * @details Example: padRight("42", 5, '0') returns "42000"
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string padRight( std::string_view str, std::size_t width, char fillChar = ' ' );
+
+	/**
+	 * @brief Center string within specified width
+	 * @param str String to center
+	 * @param width Target width (total length after padding)
+	 * @param fillChar Character to use for padding (default: space)
+	 * @return Centered string with fillChar on both sides. Returns original if already wider than width.
+	 * @details If padding is odd, extra character goes on the right.
+	 *          Example: center("Hi", 6, '*') returns "**Hi**"
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string center( std::string_view str, std::size_t width, char fillChar = ' ' );
+
+	/**
+	 * @brief Repeat string specified number of times
+	 * @param str String to repeat
+	 * @param count Number of repetitions
+	 * @return String repeated count times. Returns empty string if count is 0.
+	 * @details Example: repeat("*", 5) returns "*****"
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string repeat( std::string_view str, std::size_t count );
+
+	//----------------------------------------------
 	// String trimming
 	//----------------------------------------------
 

@@ -273,6 +273,83 @@ namespace nfx::string
 	}
 
 	//----------------------------------------------
+	// String formatting and padding
+	//----------------------------------------------
+
+	inline std::string padLeft( std::string_view str, std::size_t width, char fillChar )
+	{
+		if ( str.size() >= width )
+		{
+			return std::string{ str };
+		}
+
+		std::string result;
+		result.reserve( width );
+
+		std::size_t paddingSize = width - str.size();
+		result.append( paddingSize, fillChar );
+		result.append( str );
+
+		return result;
+	}
+
+	inline std::string padRight( std::string_view str, std::size_t width, char fillChar )
+	{
+		if ( str.size() >= width )
+		{
+			return std::string{ str };
+		}
+
+		std::string result;
+		result.reserve( width );
+
+		result.append( str );
+		std::size_t paddingSize = width - str.size();
+		result.append( paddingSize, fillChar );
+
+		return result;
+	}
+
+	inline std::string center( std::string_view str, std::size_t width, char fillChar )
+	{
+		if ( str.size() >= width )
+		{
+			return std::string{ str };
+		}
+
+		std::string result;
+		result.reserve( width );
+
+		std::size_t totalPadding = width - str.size();
+		std::size_t leftPadding = totalPadding / 2;
+		std::size_t rightPadding = totalPadding - leftPadding; // Extra char goes right if odd
+
+		result.append( leftPadding, fillChar );
+		result.append( str );
+		result.append( rightPadding, fillChar );
+
+		return result;
+	}
+
+	inline std::string repeat( std::string_view str, std::size_t count )
+	{
+		if ( count == 0 || str.empty() )
+		{
+			return {};
+		}
+
+		std::string result;
+		result.reserve( str.size() * count );
+
+		for ( std::size_t i = 0; i < count; ++i )
+		{
+			result.append( str );
+		}
+
+		return result;
+	}
+
+	//----------------------------------------------
 	// String Trimming
 	//----------------------------------------------
 

@@ -20,6 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `join(container, delimiter)`: Join container elements with delimiter
   - `join(begin, end, delimiter)`: Join iterator range with delimiter
 
+- **String Formatting & Padding**:
+
+  - `padLeft(str, width, fillChar)`: Pad string on left (right-align)
+  - `padRight(str, width, fillChar)`: Pad string on right (left-align)
+  - `center(str, width, fillChar)`: Center string within width
+  - `repeat(str, count)`: Repeat string N times
+
 - **Parsing**: `tryParseFloat` function for single-precision floating-point parsing
 
   - Supports decimal, scientific notation, and special values (nan, inf, infinity)
