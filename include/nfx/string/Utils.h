@@ -575,10 +575,12 @@ namespace nfx::string
 	 * @details Accepts any integral type and validates the value is within the valid port range.
 	 *          Prevents implicit narrowing conversions that could silently accept invalid values.
 	 *          Examples: isValidPort(80) = true, isValidPort(70000) = false, isValidPort(-1) = false
+	 * @deprecated This function will be removed in v2.0.0. Use manual range check instead: (port >= 0 && port <= 65535)
 	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
 	 */
 	template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
-	[[nodiscard]] inline constexpr bool isValidPort( T port ) noexcept;
+	[[nodiscard, deprecated("Will be removed in v2.0.0. Use manual range check: (port >= 0 && port <= 65535)")]] 
+	inline constexpr bool isValidPort( T port ) noexcept;
 
 	//-----------------------------
 	// Endpoint parsing
