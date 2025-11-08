@@ -34,6 +34,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   - Supports decimal, scientific notation, and special values (nan, inf, infinity)
 
+- **Documentation**:
+
+  - Updated `Sample_StringUtils.cpp`
+  - Added real-world use cases: DNA analysis, log parsing, CSV generation, financial reports
+  - Added examples: URL parsing, file path handling, email parsing, palindrome detection
+  - Added visual examples: progress bars, text boxes, table formatting
+
 ### Changed
 
 - **Code Consistency**: Unified implementation style between `tryParseFloat` and `tryParseDouble` to use consistent variable naming and pointer calculation pattern

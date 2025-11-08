@@ -212,7 +212,7 @@ int main()
 	}
 
 	//=========================================================================
-	// Real-World Use Cases
+	// Real-World use cases
 	//=========================================================================
 
 	std::cout << "--- Real-World Use Cases ---" << std::endl;
@@ -284,7 +284,229 @@ int main()
 	std::cout << std::endl;
 
 	//=========================================================================
-	// Performance Demonstration
+	// String counting and pattern matching
+	//=========================================================================
+
+	std::cout << "--- String Counting and Pattern Matching ---" << std::endl;
+
+	// Character counting
+	std::string_view dnaSequence{ "ATCGATCGATCG" };
+	std::cout << "DNA sequence analysis: " << dnaSequence << std::endl;
+	std::cout << "  Adenine (A) count: " << count( dnaSequence, 'A' ) << std::endl;
+	std::cout << "  Thymine (T) count: " << count( dnaSequence, 'T' ) << std::endl;
+	std::cout << "  Cytosine (C) count: " << count( dnaSequence, 'C' ) << std::endl;
+	std::cout << "  Guanine (G) count: " << count( dnaSequence, 'G' ) << std::endl;
+
+	// Substring counting (non-overlapping)
+	std::string_view logData{ "ERROR: Failed to connect. ERROR: Timeout. ERROR: Retry failed." };
+	std::cout << std::endl
+			  << "Log analysis: " << logData << std::endl;
+	std::cout << "  ERROR occurrences: " << count( logData, "ERROR" ) << std::endl;
+	std::cout << "  Failed occurrences: " << count( logData, "Failed" ) << std::endl;
+
+	// Overlapping pattern detection
+	std::string_view repeatPattern{ "aaaa" };
+	std::cout << std::endl
+			  << "Pattern: " << repeatPattern << std::endl;
+	std::cout << "  Non-overlapping 'aa': " << count( repeatPattern, "aa" ) << std::endl;
+	std::cout << "  Overlapping 'aa': " << countOverlapping( repeatPattern, "aa" ) << std::endl;
+
+	std::string_view genome{ "AGAGAGAG" };
+	std::cout << std::endl
+			  << "Genome: " << genome << std::endl;
+	std::cout << "  Non-overlapping 'AGA': " << count( genome, "AGA" ) << std::endl;
+	std::cout << "  Overlapping 'AGA': " << countOverlapping( genome, "AGA" ) << std::endl;
+	std::cout << std::endl;
+
+	//=========================================================================
+	// String replacement
+	//=========================================================================
+
+	std::cout << "--- String Replacement ---" << std::endl;
+
+	// Replace first occurrence
+	std::string_view template1{ "Hello {name}, welcome to {name}!" };
+	std::string replaced1{ replace( template1, "{name}", "Alice" ) };
+	std::cout << "Replace first:" << std::endl;
+	std::cout << "  Original:  " << template1 << std::endl;
+	std::cout << "  Result:    " << replaced1 << std::endl;
+
+	// Replace all occurrences
+	std::string replacedAll{ replaceAll( template1, "{name}", "Bob" ) };
+	std::cout << std::endl
+			  << "Replace all:" << std::endl;
+	std::cout << "  Original:  " << template1 << std::endl;
+	std::cout << "  Result:    " << replacedAll << std::endl;
+
+	// Path normalization
+	std::string_view windowsPath{ "C:\\Users\\Documents\\file.txt" };
+	std::string unixPath{ replaceAll( windowsPath, "\\", "/" ) };
+	std::cout << std::endl
+			  << "Path normalization:" << std::endl;
+	std::cout << "  Windows:   " << windowsPath << std::endl;
+	std::cout << "  Unix:      " << unixPath << std::endl;
+
+	// HTML escaping
+	std::string_view htmlText{ "Use <script> tags carefully & escape \"quotes\"" };
+	std::string escaped{ replaceAll( htmlText, "<", "&lt;" ) };
+	escaped = replaceAll( escaped, ">", "&gt;" );
+	escaped = replaceAll( escaped, "&", "&amp;" );
+	std::cout << std::endl
+			  << "HTML escaping:" << std::endl;
+	std::cout << "  Original:  " << htmlText << std::endl;
+	std::cout << "  Escaped:   " << escaped << std::endl;
+	std::cout << std::endl;
+
+	//=========================================================================
+	// String joining
+	//=========================================================================
+
+	std::cout << "--- String Joining ---" << std::endl;
+
+	// Join vector with delimiter
+	std::vector<std::string> tags{ "cpp", "performance", "zero-copy", "string-utils" };
+	std::string tagString{ join( tags, ", " ) };
+	std::cout << "Tags: " << tagString << std::endl;
+
+	// CSV generation
+	std::vector<std::string> csvRow{ "John", "Doe", "30", "Engineer", "75000" };
+	std::string csvLine{ join( csvRow, "," ) };
+	std::cout << "CSV: " << csvLine << std::endl;
+
+	// URL query parameters
+	std::vector<std::string> params{ "page=1", "limit=10", "sort=name", "order=asc" };
+	std::string queryString{ "?" + join( params, "&" ) };
+	std::cout << "Query: " << queryString << std::endl;
+
+	// Join with custom range
+	std::vector<std::string> words{ "The", "quick", "brown", "fox", "jumps" };
+	std::string sentence{ join( words.begin(), words.begin() + 3, " " ) };
+	std::cout << "Partial join: " << sentence << std::endl;
+
+	// Empty and single element
+	std::vector<std::string> empty{};
+	std::vector<std::string> single{ "alone" };
+	std::cout << "Empty join: \"" << join( empty, "," ) << "\"" << std::endl;
+	std::cout << "Single join: \"" << join( single, "," ) << "\"" << std::endl;
+	std::cout << std::endl;
+
+	//=========================================================================
+	// String formatting and padding
+	//=========================================================================
+
+	std::cout << "--- String Formatting and Padding ---" << std::endl;
+
+	// Table formatting
+	std::cout << "Financial report (padded):" << std::endl;
+	std::cout << "  " << padRight( "Item", 20 ) << padLeft( "Amount", 12 ) << std::endl;
+	std::cout << "  " << repeat( "-", 32 ) << std::endl;
+	std::cout << "  " << padRight( "Revenue", 20 ) << padLeft( "1,250,000", 12 ) << std::endl;
+	std::cout << "  " << padRight( "Expenses", 20 ) << padLeft( "875,000", 12 ) << std::endl;
+	std::cout << "  " << padRight( "Profit", 20 ) << padLeft( "375,000", 12 ) << std::endl;
+
+	// Number formatting
+	std::cout << std::endl
+			  << "Number formatting:" << std::endl;
+	std::cout << "  " << padLeft( "42", 5, '0' ) << " (zero-padded)" << std::endl;
+	std::cout << "  " << padLeft( "123", 8, '0' ) << " (transaction ID)" << std::endl;
+	std::cout << "  $" << padLeft( "99.99", 10, ' ' ) << " (price)" << std::endl;
+
+	// Centered headers
+	std::cout << std::endl
+			  << "Centered headers:" << std::endl;
+	std::cout << "  " << center( "MENU", 40, '=' ) << std::endl;
+	std::cout << "  " << center( "Daily Specials", 40, ' ' ) << std::endl;
+	std::cout << "  " << center( "***", 40, '-' ) << std::endl;
+
+	// Progress bars and separators
+	std::cout << std::endl
+			  << "Visual elements:" << std::endl;
+	std::cout << "  Progress: [" << repeat( "#", 7 ) << repeat( "-", 3 ) << "] 70%" << std::endl;
+	std::cout << "  " << repeat( "=", 50 ) << std::endl;
+	std::cout << "  Loading" << repeat( ".", 3 ) << std::endl;
+
+	// Box drawing
+	std::cout << std::endl
+			  << "Text box:" << std::endl;
+	std::string boxContent{ "Important Message" };
+	int boxWidth{ 40 };
+	std::cout << "  " << repeat( "*", boxWidth ) << std::endl;
+	std::cout << "  *" << center( boxContent, boxWidth - 2 ) << "*" << std::endl;
+	std::cout << "  " << repeat( "*", boxWidth ) << std::endl;
+	std::cout << std::endl;
+
+	//=========================================================================
+	// String search and reversal
+	//=========================================================================
+
+	std::cout << "--- String Search and Reversal ---" << std::endl;
+
+	// Palindrome detection
+	std::vector<std::string_view> palindromeTests{ "radar", "hello", "level", "world", "noon" };
+	std::cout << "Palindrome detection:" << std::endl;
+	for ( const auto& word : palindromeTests )
+	{
+		bool isPalindrome{ word == reverse( word ) };
+		std::cout << "  " << word << " -> " << ( isPalindrome ? "palindrome" : "not palindrome" ) << std::endl;
+	}
+
+	// String reversal use cases
+	std::cout << std::endl
+			  << "Reversal examples:" << std::endl;
+	std::cout << "  \"hello\" reversed: " << reverse( "hello" ) << std::endl;
+	std::cout << "  \"12345\" reversed: " << reverse( "12345" ) << std::endl;
+	std::cout << "  DNA \"ATCG\" reversed: " << reverse( "ATCG" ) << std::endl;
+
+	// Finding first occurrence
+	std::string_view url{ "https://api.example.com/v1/users?id=123" };
+	std::cout << std::endl
+			  << "URL parsing: " << url << std::endl;
+	auto protocolPos{ indexOf( url, "://" ) };
+	auto pathPos{ indexOf( url, "/v1" ) };
+	auto queryPos{ indexOf( url, "?" ) };
+	std::cout << "  Protocol separator at: " << protocolPos << std::endl;
+	std::cout << "  API path at: " << pathPos << std::endl;
+	std::cout << "  Query string at: " << queryPos << std::endl;
+
+	// Finding last occurrence
+	std::string_view filePath{ "C:/Users/Documents/project/src/utils/helper.cpp" };
+	std::cout << std::endl
+			  << "File path: " << filePath << std::endl;
+	auto lastSlash{ lastIndexOf( filePath, "/" ) };
+	auto lastDot{ lastIndexOf( filePath, "." ) };
+	if ( lastSlash != std::string_view::npos )
+	{
+		std::cout << "  Filename: " << filePath.substr( lastSlash + 1 ) << std::endl;
+	}
+	if ( lastDot != std::string_view::npos )
+	{
+		std::cout << "  Extension: " << filePath.substr( lastDot ) << std::endl;
+	}
+
+	// Email parsing
+	std::string_view email{ "user.name@mail.example.com" };
+	std::cout << std::endl
+			  << "Email: " << email << std::endl;
+	auto atPos{ indexOf( email, "@" ) };
+	auto lastDotPos{ lastIndexOf( email, "." ) };
+	if ( atPos != std::string_view::npos && lastDotPos != std::string_view::npos )
+	{
+		std::cout << "  Username: " << email.substr( 0, atPos ) << std::endl;
+		std::cout << "  Domain: " << email.substr( atPos + 1 ) << std::endl;
+		std::cout << "  TLD: " << email.substr( lastDotPos + 1 ) << std::endl;
+	}
+
+	// Search not found
+	std::cout << std::endl
+			  << "Search results:" << std::endl;
+	std::cout << "  indexOf(\"hello\", \"xyz\"): "
+			  << ( indexOf( "hello", "xyz" ) == std::string_view::npos ? "not found" : "found" ) << std::endl;
+	std::cout << "  lastIndexOf(\"test\", \"missing\"): "
+			  << ( lastIndexOf( "test", "missing" ) == std::string_view::npos ? "not found" : "found" ) << std::endl;
+	std::cout << std::endl;
+
+	//=========================================================================
+	// Performance demonstration
 	//=========================================================================
 
 	std::cout << "--- Performance Demonstration ---" << std::endl;
