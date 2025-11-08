@@ -9,7 +9,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(nfx-stringutils
-	VERSION 1.1.0
+	VERSION 1.2.0
 	DESCRIPTION "Cross-platform C++ string utilities library with validation and manipulation functions"
 	HOMEPAGE_URL "https://github.com/ronan-fdev/nfx-stringutils"
 	LANGUAGES CXX

@@ -9,6 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- NIL
+
+### Changed
+
+- NIL
+
+### Deprecated
+
+- NIL
+
+### Removed
+
+- NIL
+
+### Fixed
+
+- NIL
+
+### Security
+
+- NIL
+
+## [1.2.0] - 2025-11-08
+
+### Added
+
 - **String Operations**:
 
   - `count(str, substr)`: Count non-overlapping occurrences of substring
@@ -47,22 +73,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   - Both now use `std::next()` for pointer arithmetic
   - Consistent structured binding usage for `std::from_chars` results
-
-### Deprecated
-
-- NIL
-
-### Removed
-
-- NIL
-
-### Fixed
-
-- NIL
-
-### Security
-
-- NIL
 
 ## [1.1.0] - 2025-10-30
 
