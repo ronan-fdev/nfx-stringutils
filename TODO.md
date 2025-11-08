@@ -91,7 +91,7 @@ Project roadmap and task tracking for the nfx-stringutils library.
 
 ### Done ✓
 
-#### v1.2.0 (2025-01-27)
+#### v1.2.0 (2025-11-08)
 
 - [x] String operations (count, countOverlapping, replace, replaceAll, join)
 - [x] Formatting & padding (padLeft, padRight, center, repeat)
@@ -102,3 +102,15 @@ Project roadmap and task tracking for the nfx-stringutils library.
 #### v1.1.0 (2025-10-30)
 
 - [x] Zero-allocation string splitting (Splitter class, splitView() factory)
+
+#### v1.0.3 (2025-10-30)
+
+- [x] Bug fix: Removed unused variable in isIPv6Address
+
+#### v1.0.2 (2025-10-29)
+
+- [x] Bug fix: CMake directory paths and variable naming
+
+#### v1.0.1 (2025-10-27)
+
+- [x] Bug fix: Release workflow draft releases
