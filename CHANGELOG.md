@@ -9,13 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **String Operations**:
+
+  - `count(str, substr)`: Count non-overlapping occurrences of substring
+  - `count(str, ch)`: Count occurrences of character (constexpr)
+  - `countOverlapping()` function for counting overlapping substring occurrences
+  - `replace()` function for replacing first occurrence of substring
+  - `replaceAll()` function for replacing all non-overlapping occurrences of substring
+  - `join()` function with two overloads for joining string elements
+  - `join(container, delimiter)`: Join container elements with delimiter
+  - `join(begin, end, delimiter)`: Join iterator range with delimiter
+
 - **Parsing**: `tryParseFloat` function for single-precision floating-point parsing
+
   - Supports decimal, scientific notation, and special values (nan, inf, infinity)
-- **Testing**: Added special value tests for `tryParseFloat` and `tryParseDouble` (NaN, inf, infinity with sign variants)
 
 ### Changed
 
 - **Code Consistency**: Unified implementation style between `tryParseFloat` and `tryParseDouble` to use consistent variable naming and pointer calculation pattern
+
   - Both now use `std::next()` for pointer arithmetic
   - Consistent structured binding usage for `std::from_chars` results
 

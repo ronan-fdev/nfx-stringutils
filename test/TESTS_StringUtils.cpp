@@ -1056,6 +1056,214 @@ namespace nfx::string::test
 		EXPECT_TRUE( iequals( "Test", "TEST" ) );
 	}
 
+	TEST( StringUtilsOperations, Count_Substring )
+	{
+		// Basic counting
+		EXPECT_EQ( count( "banana", "na" ), 2 );
+		EXPECT_EQ( count( "hello world", "l" ), 3 );
+		EXPECT_EQ( count( "abcabcabc", "abc" ), 3 );
+
+		// No matches
+		EXPECT_EQ( count( "hello", "xyz" ), 0 );
+		EXPECT_EQ( count( "test", "testing" ), 0 );
+
+		// Edge cases
+		EXPECT_EQ( count( "", "test" ), 0 ); // Empty string
+		EXPECT_EQ( count( "test", "" ), 0 ); // Empty substring
+		EXPECT_EQ( count( "", "" ), 0 );	 // Both empty
+
+		// Single character matches
+		EXPECT_EQ( count( "aaa", "a" ), 3 );
+		EXPECT_EQ( count( "test", "t" ), 2 );
+
+		// Overlapping not counted
+		EXPECT_EQ( count( "aaaa", "aa" ), 2 );	 // Non-overlapping: "aa" + "aa"
+		EXPECT_EQ( count( "ababa", "aba" ), 1 ); // "aba" found once, then skips to position after match
+
+		// Full string match
+		EXPECT_EQ( count( "hello", "hello" ), 1 );
+
+		// Longer substring than string
+		EXPECT_EQ( count( "hi", "hello" ), 0 );
+	}
+
+	TEST( StringUtilsOperations, CountOverlapping_Substring )
+	{
+		// Basic overlapping patterns
+		EXPECT_EQ( countOverlapping( "aaaa", "aa" ), 3 );	 // Positions 0, 1, 2
+		EXPECT_EQ( countOverlapping( "ababa", "aba" ), 2 );	 // Positions 0, 2
+		EXPECT_EQ( countOverlapping( "banana", "ana" ), 2 ); // Positions 1, 3
+
+		// Compare with non-overlapping
+		EXPECT_EQ( count( "aaaa", "aa" ), 2 );			  // Non-overlapping
+		EXPECT_EQ( countOverlapping( "aaaa", "aa" ), 3 ); // Overlapping
+
+		// No matches
+		EXPECT_EQ( countOverlapping( "hello", "xyz" ), 0 );
+		EXPECT_EQ( countOverlapping( "test", "testing" ), 0 );
+
+		// Edge cases
+		EXPECT_EQ( countOverlapping( "", "test" ), 0 ); // Empty string
+		EXPECT_EQ( countOverlapping( "test", "" ), 0 ); // Empty substring
+		EXPECT_EQ( countOverlapping( "", "" ), 0 );		// Both empty
+
+		// Single occurrence (same as non-overlapping)
+		EXPECT_EQ( countOverlapping( "hello world", "world" ), 1 );
+		EXPECT_EQ( countOverlapping( "abc", "abc" ), 1 );
+
+		// Multiple non-overlapping occurrences (same result as count)
+		EXPECT_EQ( countOverlapping( "a b a b a", "a" ), 3 );
+
+		// Longer substring than string
+		EXPECT_EQ( countOverlapping( "hi", "hello" ), 0 );
+
+		// DNA sequence example (real-world use case)
+		EXPECT_EQ( countOverlapping( "ATGATGATG", "ATG" ), 3 ); // Overlapping start codons
+
+		// Repeated pattern
+		EXPECT_EQ( countOverlapping( "aaaaaa", "aaa" ), 4 ); // Positions 0, 1, 2, 3
+	}
+
+	TEST( StringUtilsOperations, Count_Character )
+	{
+		// Basic counting
+		EXPECT_EQ( count( "banana", 'a' ), 3 );
+		EXPECT_EQ( count( "hello world", 'l' ), 3 );
+		EXPECT_EQ( count( "test", 't' ), 2 );
+
+		// No matches
+		EXPECT_EQ( count( "hello", 'x' ), 0 );
+		EXPECT_EQ( count( "abc", 'z' ), 0 );
+
+		// Edge cases
+		EXPECT_EQ( count( "", 'a' ), 0 );  // Empty string
+		EXPECT_EQ( count( "a", 'a' ), 1 ); // Single character
+
+		// All same character
+		EXPECT_EQ( count( "aaaa", 'a' ), 4 );
+
+		// Special characters
+		EXPECT_EQ( count( "a,b,c,d", ',' ), 3 );
+		EXPECT_EQ( count( "one two three", ' ' ), 2 );
+	}
+
+	TEST( StringUtilsOperations, Replace )
+	{
+		// Basic replacement
+		EXPECT_EQ( replace( "hello world", "world", "C++" ), "hello C++" );
+		EXPECT_EQ( replace( "test test", "test", "demo" ), "demo test" ); // Only first
+
+		// No match
+		EXPECT_EQ( replace( "hello", "xyz", "abc" ), "hello" );
+
+		// Edge cases
+		EXPECT_EQ( replace( "", "old", "new" ), "" );	   // Empty string
+		EXPECT_EQ( replace( "test", "", "new" ), "test" ); // Empty old string
+		EXPECT_EQ( replace( "hello", "hello", "" ), "" );  // Replace with empty
+
+		// Same length replacement
+		EXPECT_EQ( replace( "abc", "b", "x" ), "axc" );
+
+		// Longer replacement
+		EXPECT_EQ( replace( "hi", "i", "ello" ), "hello" );
+
+		// Shorter replacement
+		EXPECT_EQ( replace( "hello", "ello", "i" ), "hi" );
+
+		// Beginning of string
+		EXPECT_EQ( replace( "prefix-test", "prefix", "new" ), "new-test" );
+
+		// End of string
+		EXPECT_EQ( replace( "test-suffix", "suffix", "new" ), "test-new" );
+
+		// Full string replacement
+		EXPECT_EQ( replace( "old", "old", "new" ), "new" );
+	}
+
+	TEST( StringUtilsOperations, ReplaceAll )
+	{
+		// Basic replacement
+		EXPECT_EQ( replaceAll( "hello world world", "world", "C++" ), "hello C++ C++" );
+		EXPECT_EQ( replaceAll( "test test test", "test", "demo" ), "demo demo demo" );
+
+		// No match
+		EXPECT_EQ( replaceAll( "hello", "xyz", "abc" ), "hello" );
+
+		// Edge cases
+		EXPECT_EQ( replaceAll( "", "old", "new" ), "" );	  // Empty string
+		EXPECT_EQ( replaceAll( "test", "", "new" ), "test" ); // Empty old string
+
+		// Single occurrence (same as replace)
+		EXPECT_EQ( replaceAll( "hello world", "world", "C++" ), "hello C++" );
+
+		// Multiple non-adjacent occurrences
+		EXPECT_EQ( replaceAll( "a b a b a", "a", "x" ), "x b x b x" );
+
+		// Adjacent occurrences
+		EXPECT_EQ( replaceAll( "aaa", "a", "b" ), "bbb" );
+
+		// Longer replacement
+		EXPECT_EQ( replaceAll( "a-b-c", "-", " and " ), "a and b and c" );
+
+		// Shorter replacement
+		EXPECT_EQ( replaceAll( "one and two and three", " and ", "+" ), "one+two+three" );
+
+		// Replace with empty (removal)
+		EXPECT_EQ( replaceAll( "a,b,c", ",", "" ), "abc" );
+
+		// Complex pattern
+		EXPECT_EQ( replaceAll( "the the the", "the", "a" ), "a a a" );
+	}
+
+	TEST( StringUtilsOperations, Join_Container )
+	{
+		// Basic join with vector
+		std::vector<std::string> words{ "hello", "world", "test" };
+		EXPECT_EQ( join( words, " " ), "hello world test" );
+		EXPECT_EQ( join( words, ", " ), "hello, world, test" );
+		EXPECT_EQ( join( words, "" ), "helloworldtest" );
+
+		// Single element
+		std::vector<std::string> single{ "alone" };
+		EXPECT_EQ( join( single, ", " ), "alone" );
+
+		// Empty container
+		std::vector<std::string> empty;
+		EXPECT_EQ( join( empty, ", " ), "" );
+
+		// String views
+		std::vector<std::string_view> views{ "a", "b", "c" };
+		EXPECT_EQ( join( views, "-" ), "a-b-c" );
+
+		// Different delimiter types
+		std::vector<std::string> items{ "1", "2", "3" };
+		EXPECT_EQ( join( items, "," ), "1,2,3" );
+		EXPECT_EQ( join( items, " | " ), "1 | 2 | 3" );
+
+		// CSV-style
+		std::vector<std::string> csv{ "John", "Doe", "30", "Engineer" };
+		EXPECT_EQ( join( csv, "," ), "John,Doe,30,Engineer" );
+	}
+
+	TEST( StringUtilsOperations, Join_Iterator )
+	{
+		std::vector<std::string> words{ "one", "two", "three", "four" };
+
+		// Full range
+		EXPECT_EQ( join( words.begin(), words.end(), " " ), "one two three four" );
+
+		// Partial range
+		EXPECT_EQ( join( words.begin(), words.begin() + 2, "-" ), "one-two" );
+		EXPECT_EQ( join( words.begin() + 1, words.end(), ", " ), "two, three, four" );
+
+		// Single element
+		EXPECT_EQ( join( words.begin(), words.begin() + 1, ", " ), "one" );
+
+		// Empty range
+		EXPECT_EQ( join( words.begin(), words.begin(), ", " ), "" );
+		EXPECT_EQ( join( words.end(), words.end(), ", " ), "" );
+	}
+
 	//----------------------------------------------
 	// String trimming
 	//----------------------------------------------

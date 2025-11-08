@@ -165,6 +165,83 @@ namespace nfx::string
 	 */
 	[[nodiscard]] inline bool iequals( std::string_view lhs, std::string_view rhs ) noexcept;
 
+	/**
+	 * @brief Count occurrences of substring in string
+	 * @param str String to search in
+	 * @param substr Substring to count
+	 * @return Number of non-overlapping occurrences of substr in str
+	 * @details Returns 0 if substr is empty or not found. Counts non-overlapping matches.
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::size_t count( std::string_view str, std::string_view substr ) noexcept;
+
+	/**
+	 * @brief Count overlapping occurrences of substring in string
+	 * @param str String to search in
+	 * @param substr Substring to count
+	 * @return Number of overlapping occurrences of substr in str
+	 * @details Returns 0 if substr is empty or not found. Counts all matches including overlapping ones.
+	 *          Example: countOverlapping("aaaa", "aa") returns 3 (positions 0, 1, 2)
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::size_t countOverlapping( std::string_view str, std::string_view substr ) noexcept;
+
+	/**
+	 * @brief Count occurrences of character in string
+	 * @param str String to search in
+	 * @param ch Character to count
+	 * @return Number of occurrences of ch in str
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline constexpr std::size_t count( std::string_view str, char ch ) noexcept;
+
+	/**
+	 * @brief Replace first occurrence of substring with replacement
+	 * @param str String to search in
+	 * @param oldStr Substring to replace
+	 * @param newStr Replacement string
+	 * @return New string with first occurrence replaced, or copy of original if oldStr not found
+	 * @details Returns original string if oldStr is empty
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string replace( std::string_view str, std::string_view oldStr, std::string_view newStr );
+
+	/**
+	 * @brief Replace all occurrences of substring with replacement
+	 * @param str String to search in
+	 * @param oldStr Substring to replace
+	 * @param newStr Replacement string
+	 * @return New string with all non-overlapping occurrences replaced
+	 * @details Returns original string if oldStr is empty or not found
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string replaceAll( std::string_view str, std::string_view oldStr, std::string_view newStr );
+
+	/**
+	 * @brief Join container elements with delimiter
+	 * @tparam Container Container type (must support begin()/end() and value_type convertible to string_view)
+	 * @param elements Container of elements to join
+	 * @param delimiter Delimiter to insert between elements
+	 * @return Joined string with delimiter between elements
+	 * @details Returns empty string for empty container. Single element returns that element without delimiter.
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	template <typename Container>
+	[[nodiscard]] inline std::string join( const Container& elements, std::string_view delimiter );
+
+	/**
+	 * @brief Join iterator range with delimiter
+	 * @tparam Iterator Forward iterator type (value_type must be convertible to string_view)
+	 * @param begin Iterator to first element
+	 * @param end Iterator past last element
+	 * @param delimiter Delimiter to insert between elements
+	 * @return Joined string with delimiter between elements
+	 * @details Returns empty string for empty range. Single element returns that element without delimiter.
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	template <typename Iterator>
+	[[nodiscard]] inline std::string join( Iterator begin, Iterator end, std::string_view delimiter );
+
 	//----------------------------------------------
 	// String trimming
 	//----------------------------------------------

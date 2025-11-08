@@ -142,6 +142,136 @@ namespace nfx::string
 			[]( char a, char b ) noexcept { return toLower( a ) == toLower( b ); } );
 	}
 
+	inline std::size_t count( std::string_view str, std::string_view substr ) noexcept
+	{
+		if ( substr.empty() || str.empty() || substr.size() > str.size() )
+		{
+			return 0;
+		}
+
+		std::size_t occurrences = 0;
+		std::size_t pos = 0;
+
+		while ( ( pos = str.find( substr, pos ) ) != std::string_view::npos )
+		{
+			++occurrences;
+			pos += substr.size(); // Move past this occurrence (non-overlapping)
+		}
+
+		return occurrences;
+	}
+
+	inline std::size_t countOverlapping( std::string_view str, std::string_view substr ) noexcept
+	{
+		if ( substr.empty() || str.empty() || substr.size() > str.size() )
+		{
+			return 0;
+		}
+
+		std::size_t occurrences = 0;
+		std::size_t pos = 0;
+
+		while ( ( pos = str.find( substr, pos ) ) != std::string_view::npos )
+		{
+			++occurrences;
+			++pos; // Move by 1 to find overlapping occurrences
+		}
+
+		return occurrences;
+	}
+
+	inline constexpr std::size_t count( std::string_view str, char ch ) noexcept
+	{
+		std::size_t occurrences = 0;
+		for ( char c : str )
+		{
+			if ( c == ch )
+			{
+				++occurrences;
+			}
+		}
+		return occurrences;
+	}
+
+	inline std::string replace( std::string_view str, std::string_view oldStr, std::string_view newStr )
+	{
+		if ( oldStr.empty() || str.empty() )
+		{
+			return std::string{ str };
+		}
+
+		std::size_t pos = str.find( oldStr );
+		if ( pos == std::string_view::npos )
+		{
+			return std::string{ str };
+		}
+
+		std::string result;
+		result.reserve( str.size() - oldStr.size() + newStr.size() );
+		result.append( str.substr( 0, pos ) );
+		result.append( newStr );
+		result.append( str.substr( pos + oldStr.size() ) );
+
+		return result;
+	}
+
+	inline std::string replaceAll( std::string_view str, std::string_view oldStr, std::string_view newStr )
+	{
+		if ( oldStr.empty() || str.empty() )
+		{
+			return std::string{ str };
+		}
+
+		std::string result;
+		result.reserve( str.size() ); // Initial reservation, may grow
+
+		std::size_t lastPos = 0;
+		std::size_t pos = 0;
+
+		while ( ( pos = str.find( oldStr, lastPos ) ) != std::string_view::npos )
+		{
+			result.append( str.substr( lastPos, pos - lastPos ) );
+			result.append( newStr );
+			lastPos = pos + oldStr.size();
+		}
+
+		// Append remaining part
+		result.append( str.substr( lastPos ) );
+
+		return result;
+	}
+
+	template <typename Container>
+	inline std::string join( const Container& elements, std::string_view delimiter )
+	{
+		return join( std::begin( elements ), std::end( elements ), delimiter );
+	}
+
+	template <typename Iterator>
+	inline std::string join( Iterator begin, Iterator end, std::string_view delimiter )
+	{
+		if ( begin == end )
+		{
+			return {};
+		}
+
+		std::string result;
+
+		// Add first element without delimiter
+		auto it = begin;
+		result.append( std::string_view{ *it } );
+		++it;
+
+		// Add remaining elements with delimiter prefix
+		for ( ; it != end; ++it )
+		{
+			result.append( delimiter );
+			result.append( std::string_view{ *it } );
+		}
+
+		return result;
+	}
+
 	//----------------------------------------------
 	// String Trimming
 	//----------------------------------------------
