@@ -579,7 +579,7 @@ namespace nfx::string
 	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
 	 */
 	template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
-	[[nodiscard, deprecated("Will be removed in v2.0.0. Use manual range check: (port >= 0 && port <= 65535)")]] 
+	[[nodiscard, deprecated( "Will be removed in v2.0.0. Use manual range check: (port >= 0 && port <= 65535)" )]]
 	inline constexpr bool isValidPort( T port ) noexcept;
 
 	//-----------------------------
