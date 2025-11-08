@@ -1537,6 +1537,89 @@ namespace nfx::string::test
 		EXPECT_FALSE( tryParseLong( "+123", result ) );
 	}
 
+	TEST( StringUtilsNumericParsing, TryParseFloat )
+	{
+		float result{ 0.0f };
+
+		// Valid integers
+		EXPECT_TRUE( tryParseFloat( "123", result ) );
+		EXPECT_FLOAT_EQ( 123.0f, result );
+
+		EXPECT_TRUE( tryParseFloat( "0", result ) );
+		EXPECT_FLOAT_EQ( 0.0f, result );
+
+		EXPECT_TRUE( tryParseFloat( "-123", result ) );
+		EXPECT_FLOAT_EQ( -123.0f, result );
+
+		// Valid decimals
+		EXPECT_TRUE( tryParseFloat( "123.456", result ) );
+		EXPECT_FLOAT_EQ( 123.456f, result );
+
+		EXPECT_TRUE( tryParseFloat( "-123.456", result ) );
+		EXPECT_FLOAT_EQ( -123.456f, result );
+
+		EXPECT_TRUE( tryParseFloat( "0.123", result ) );
+		EXPECT_FLOAT_EQ( 0.123f, result );
+
+		EXPECT_TRUE( tryParseFloat( "3.14159", result ) );
+		EXPECT_FLOAT_EQ( 3.14159f, result );
+
+		// Scientific notation
+		EXPECT_TRUE( tryParseFloat( "1.23e2", result ) );
+		EXPECT_FLOAT_EQ( 123.0f, result );
+
+		EXPECT_TRUE( tryParseFloat( "1.23e-2", result ) );
+		EXPECT_FLOAT_EQ( 0.0123f, result );
+
+		EXPECT_TRUE( tryParseFloat( "1e10", result ) );
+		EXPECT_FLOAT_EQ( 1e10f, result );
+
+		// Edge cases - very small and large values
+		EXPECT_TRUE( tryParseFloat( "1.175494e-38", result ) ); // Near FLT_MIN
+		EXPECT_FLOAT_EQ( 1.175494e-38f, result );
+
+		EXPECT_TRUE( tryParseFloat( "3.402823e+38", result ) ); // Near FLT_MAX
+		EXPECT_FLOAT_EQ( 3.402823e+38f, result );
+
+		// Special floating-point values (supported by std::from_chars)
+		EXPECT_TRUE( tryParseFloat( "nan", result ) );
+		EXPECT_TRUE( std::isnan( result ) );
+
+		EXPECT_TRUE( tryParseFloat( "NaN", result ) );
+		EXPECT_TRUE( std::isnan( result ) );
+
+		EXPECT_TRUE( tryParseFloat( "inf", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_GT( result, 0.0f ); // Positive infinity
+
+		EXPECT_TRUE( tryParseFloat( "-inf", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_LT( result, 0.0f ); // Negative infinity
+
+		EXPECT_TRUE( tryParseFloat( "infinity", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_GT( result, 0.0f );
+
+		EXPECT_TRUE( tryParseFloat( "-infinity", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_LT( result, 0.0f );
+
+		// Invalid cases
+		EXPECT_FALSE( tryParseFloat( "", result ) );
+		EXPECT_FALSE( tryParseFloat( "abc", result ) );
+		EXPECT_FALSE( tryParseFloat( "123abc", result ) );
+		EXPECT_FALSE( tryParseFloat( " 123.456", result ) );
+		EXPECT_FALSE( tryParseFloat( "123.456 ", result ) );
+		EXPECT_FALSE( tryParseFloat( "+123.456", result ) );
+
+		// Multiple decimal points
+		EXPECT_FALSE( tryParseFloat( "12.34.56", result ) );
+
+		// Invalid scientific notation
+		EXPECT_FALSE( tryParseFloat( "1e", result ) );
+		EXPECT_FALSE( tryParseFloat( "e10", result ) );
+	}
+
 	TEST( StringUtilsNumericParsing, TryParseDouble )
 	{
 		double result{ 0.0 };
@@ -1567,6 +1650,29 @@ namespace nfx::string::test
 
 		EXPECT_TRUE( tryParseDouble( "1.23e-2", result ) );
 		EXPECT_DOUBLE_EQ( 0.0123, result );
+
+		// Special floating-point values (supported by std::from_chars)
+		EXPECT_TRUE( tryParseDouble( "nan", result ) );
+		EXPECT_TRUE( std::isnan( result ) );
+
+		EXPECT_TRUE( tryParseDouble( "NaN", result ) );
+		EXPECT_TRUE( std::isnan( result ) );
+
+		EXPECT_TRUE( tryParseDouble( "inf", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_GT( result, 0.0 ); // Positive infinity
+
+		EXPECT_TRUE( tryParseDouble( "-inf", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_LT( result, 0.0 ); // Negative infinity
+
+		EXPECT_TRUE( tryParseDouble( "infinity", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_GT( result, 0.0 );
+
+		EXPECT_TRUE( tryParseDouble( "-infinity", result ) );
+		EXPECT_TRUE( std::isinf( result ) );
+		EXPECT_LT( result, 0.0 );
 
 		// Invalid cases
 		EXPECT_FALSE( tryParseDouble( "", result ) );

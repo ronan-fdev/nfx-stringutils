@@ -31,6 +31,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <charconv>
 
 namespace nfx::string
@@ -339,6 +340,20 @@ namespace nfx::string
 		return parseResult.ec == std::errc{} && parseResult.ptr == end;
 	}
 
+	inline bool tryParseFloat( std::string_view str, float& result ) noexcept
+	{
+		if ( str.empty() )
+		{
+			result = 0.f;
+			return false;
+		}
+
+		const char* const begin = str.data();
+		const char* const end = std::next( begin, static_cast<std::ptrdiff_t>( str.size() ) );
+		const auto parseResult{ std::from_chars( begin, end, result ) };
+		return parseResult.ec == std::errc{} && parseResult.ptr == end;
+	}
+
 	inline bool tryParseDouble( std::string_view str, double& result ) noexcept
 	{
 		if ( str.empty() )
@@ -347,8 +362,9 @@ namespace nfx::string
 			return false;
 		}
 
-		const char* const end = std::next( str.data(), static_cast<std::ptrdiff_t>( str.size() ) );
-		const auto parseResult{ std::from_chars( str.data(), end, result ) };
+		const char* const begin = str.data();
+		const char* const end = std::next( begin, static_cast<std::ptrdiff_t>( str.size() ) );
+		const auto parseResult{ std::from_chars( begin, end, result ) };
 		return parseResult.ec == std::errc{} && parseResult.ptr == end;
 	}
 

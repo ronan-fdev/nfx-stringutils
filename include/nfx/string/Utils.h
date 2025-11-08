@@ -284,10 +284,23 @@ namespace nfx::string
 	[[nodiscard]] inline bool tryParseLong( std::string_view str, std::int64_t& result ) noexcept;
 
 	/**
+	 * @brief Fast float parsing with error handling
+	 * @param str String to parse
+	 * @param result Output float value
+	 * @return True if parsing succeeded, false otherwise
+	 * @details Supports decimal, scientific notation, and special values (nan, inf, infinity).
+	 *          Examples: "123.456", "1.23e-2", "nan", "inf", "-infinity"
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline bool tryParseFloat( std::string_view str, float& result ) noexcept;
+
+	/**
 	 * @brief Fast double parsing with error handling
 	 * @param str String to parse
 	 * @param result Output double value
 	 * @return True if parsing succeeded, false otherwise
+	 * @details Supports decimal, scientific notation, and special values (nan, inf, infinity).
+	 *          Examples: "123.456", "1.23e-2", "nan", "inf", "-infinity"
 	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
 	 */
 	[[nodiscard]] inline bool tryParseDouble( std::string_view str, double& result ) noexcept;

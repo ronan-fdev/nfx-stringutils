@@ -9,11 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- NIL
+- **Parsing**: `tryParseFloat` function for single-precision floating-point parsing
+  - Supports decimal, scientific notation, and special values (nan, inf, infinity)
+- **Testing**: Added special value tests for `tryParseFloat` and `tryParseDouble` (NaN, inf, infinity with sign variants)
 
 ### Changed
 
-- NIL
+- **Code Consistency**: Unified implementation style between `tryParseFloat` and `tryParseDouble` to use consistent variable naming and pointer calculation pattern
+  - Both now use `std::next()` for pointer arithmetic
+  - Consistent structured binding usage for `std::from_chars` results
 
 ### Deprecated
 
