@@ -272,6 +272,24 @@ namespace nfx::string
 		return result;
 	}
 
+	inline std::string reverse( std::string_view str )
+	{
+		std::string result{ str };
+		std::reverse( result.begin(), result.end() );
+
+		return result;
+	}
+
+	inline constexpr std::size_t indexOf( std::string_view str, std::string_view substr ) noexcept
+	{
+		return str.find( substr );
+	}
+
+	inline constexpr std::size_t lastIndexOf( std::string_view str, std::string_view substr ) noexcept
+	{
+		return str.rfind( substr );
+	}
+
 	//----------------------------------------------
 	// String formatting and padding
 	//----------------------------------------------

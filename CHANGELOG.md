@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `join()` function with two overloads for joining string elements
   - `join(container, delimiter)`: Join container elements with delimiter
   - `join(begin, end, delimiter)`: Join iterator range with delimiter
+  - `reverse(str)`: Reverse string characters
+  - `indexOf(str, substr)`: Find first occurrence of substring
+  - `lastIndexOf(str, substr)`: Find last occurrence of substring
 
 - **String Formatting & Padding**:
 

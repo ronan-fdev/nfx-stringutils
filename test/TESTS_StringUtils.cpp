@@ -1375,6 +1375,102 @@ namespace nfx::string::test
 		EXPECT_EQ( repeat( "Na", 8 ) + " Batman!", "NaNaNaNaNaNaNaNa Batman!" );	// :)
 	}
 
+	TEST( StringUtilsOperations, Reverse )
+	{
+		// Basic reverse
+		EXPECT_EQ( reverse( "hello" ), "olleh" );
+		EXPECT_EQ( reverse( "world" ), "dlrow" );
+		EXPECT_EQ( reverse( "abc" ), "cba" );
+
+		// Single character
+		EXPECT_EQ( reverse( "x" ), "x" );
+
+		// Empty string
+		EXPECT_EQ( reverse( "" ), "" );
+
+		// Palindrome check (reverse equals original)
+		EXPECT_EQ( reverse( "radar" ), "radar" );
+		EXPECT_EQ( reverse( "noon" ), "noon" );
+		EXPECT_NE( reverse( "hello" ), "hello" );
+
+		// Numbers and special characters
+		EXPECT_EQ( reverse( "12345" ), "54321" );
+		EXPECT_EQ( reverse( "a!b@c#" ), "#c@b!a" );
+
+		// Real-world use cases
+		EXPECT_EQ( reverse( "desserts" ), "stressed" );	   // Palindrome pairs
+		EXPECT_EQ( reverse( reverse( "test" ) ), "test" ); // Double reverse = identity
+		std::string dna = "ATCG";
+		EXPECT_EQ( reverse( dna ), "GCTA" ); // DNA complement prep
+	}
+
+	TEST( StringUtilsOperations, IndexOf )
+	{
+		constexpr auto npos = std::string_view::npos;
+
+		// Basic search
+		EXPECT_EQ( indexOf( "hello world", "world" ), 6 );
+		EXPECT_EQ( indexOf( "hello world", "hello" ), 0 );
+		EXPECT_EQ( indexOf( "hello world", "o" ), 4 ); // First 'o'
+
+		// Not found
+		EXPECT_EQ( indexOf( "hello world", "xyz" ), npos );
+		EXPECT_EQ( indexOf( "hello", "hello world" ), npos ); // Substr longer than str
+
+		// Empty cases
+		EXPECT_EQ( indexOf( "hello", "" ), 0 );	  // Empty substr found at position 0
+		EXPECT_EQ( indexOf( "", "" ), 0 );		  // Both empty
+		EXPECT_EQ( indexOf( "", "test" ), npos ); // Empty str, non-empty substr
+
+		// Case sensitivity
+		EXPECT_EQ( indexOf( "Hello World", "world" ), npos ); // Case mismatch
+		EXPECT_EQ( indexOf( "Hello World", "World" ), 6 );	  // Case match
+
+		// Multiple occurrences (returns first)
+		EXPECT_EQ( indexOf( "hello hello", "hello" ), 0 );
+		EXPECT_EQ( indexOf( "abcabc", "abc" ), 0 );
+
+		// Real-world use cases
+		EXPECT_EQ( indexOf( "https://example.com/path", "://" ), 5 );	   // URL parsing
+		EXPECT_EQ( indexOf( "user@example.com", "@" ), 4 );				   // Email parsing
+		EXPECT_EQ( indexOf( "Content-Type: application/json", ":" ), 12 ); // HTTP header parsing
+		EXPECT_EQ( indexOf( "file.txt", "." ), 4 );						   // Extension search
+	}
+
+	TEST( StringUtilsOperations, LastIndexOf )
+	{
+		constexpr auto npos = std::string_view::npos;
+
+		// Basic search (returns last occurrence)
+		EXPECT_EQ( lastIndexOf( "hello hello", "hello" ), 6 );
+		EXPECT_EQ( lastIndexOf( "abcabc", "abc" ), 3 );
+		EXPECT_EQ( lastIndexOf( "hello world", "o" ), 7 ); // Last 'o'
+
+		// Single occurrence
+		EXPECT_EQ( lastIndexOf( "hello world", "world" ), 6 );
+		EXPECT_EQ( lastIndexOf( "hello world", "hello" ), 0 );
+
+		// Not found
+		EXPECT_EQ( lastIndexOf( "hello world", "xyz" ), npos );
+		EXPECT_EQ( lastIndexOf( "hello", "hello world" ), npos );
+
+		// Empty cases
+		EXPECT_EQ( lastIndexOf( "hello", "" ), 5 );	  // Empty substr found at end (str.size())
+		EXPECT_EQ( lastIndexOf( "", "" ), 0 );		  // Both empty
+		EXPECT_EQ( lastIndexOf( "", "test" ), npos ); // Empty str, non-empty substr
+
+		// Case sensitivity
+		EXPECT_EQ( lastIndexOf( "Hello World", "world" ), npos );
+		EXPECT_EQ( lastIndexOf( "Hello World", "World" ), 6 );
+
+		// Real-world use cases
+		EXPECT_EQ( lastIndexOf( "file.backup.txt", "." ), 11 );		  // File extension (last dot)
+		EXPECT_EQ( lastIndexOf( "/usr/local/bin", "/" ), 10 );		  // Path basename (last slash)
+		EXPECT_EQ( lastIndexOf( "user@mail.example.com", "." ), 17 ); // Domain TLD (last dot)
+		EXPECT_EQ( lastIndexOf( "path/to/file.txt", "/" ), 7 );		  // Directory separator
+		EXPECT_EQ( lastIndexOf( "192.168.1.1", "." ), 9 );			  // IP last octet
+	}
+
 	//----------------------------------------------
 	// String trimming
 	//----------------------------------------------

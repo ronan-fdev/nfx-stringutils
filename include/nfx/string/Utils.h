@@ -242,6 +242,38 @@ namespace nfx::string
 	template <typename Iterator>
 	[[nodiscard]] inline std::string join( Iterator begin, Iterator end, std::string_view delimiter );
 
+	/**
+	 * @brief Reverse a string
+	 * @param str String to reverse
+	 * @return New string with characters in reverse order
+	 * @details Returns empty string for empty input. Efficient single-pass algorithm.
+	 *          Example: reverse("hello") returns "olleh"
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline std::string reverse( std::string_view str );
+
+	/**
+	 * @brief Find first occurrence of substring
+	 * @param str String to search in
+	 * @param substr Substring to find
+	 * @return Index of first occurrence, or std::string_view::npos if not found
+	 * @details Returns 0 for empty substr. Case-sensitive search.
+	 *          Example: indexOf("hello world", "world") returns 6
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline constexpr std::size_t indexOf( std::string_view str, std::string_view substr ) noexcept;
+
+	/**
+	 * @brief Find last occurrence of substring
+	 * @param str String to search in
+	 * @param substr Substring to find
+	 * @return Index of last occurrence, or std::string_view::npos if not found
+	 * @details Returns 0 for empty substr. Case-sensitive search.
+	 *          Example: lastIndexOf("hello hello", "hello") returns 6
+	 * @note This function is marked [[nodiscard]] - the return value should not be ignored
+	 */
+	[[nodiscard]] inline constexpr std::size_t lastIndexOf( std::string_view str, std::string_view substr ) noexcept;
+
 	//----------------------------------------------
 	// String formatting and padding
 	//----------------------------------------------
